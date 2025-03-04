@@ -1,0 +1,29 @@
+local weaponController = nil
+    for i,v in pairs(getupvalues(weaponControllerInterface.getActiveWeaponController)[1]) do
+        warn(i,v)
+    end
+
+    
+    local menuScreenGui = gameRequire('MenuScreenGui');
+    local function updateAllEntries()
+        debug.profilebegin('update all entries');
+        local batch = {};
+
+        for player, entry in next, getupvalue(repInterface.getEntry, 1) do
+            local thirdPersonObject = entry:getThirdPersonObject();
+            if (not thirdPersonObject) then continue end;
+            local currentHealth, maxHealth = entry:getHealth();
+            batch[tostring(player)] = {
+                isAlive = entry:isAlive(),
+                player = player,
+                currentHealth = currentHealth,
+                maxHealth = maxHealth,
+                model = thirdPersonObject["_torso"],
+                head = thirdPersonObject["_head"],
+                weapon = thirdPersonObject["_weaponName"],
+            };
+            playerCache = batch
+        end;
+        debug.profileend();
+    end;
+]]);
